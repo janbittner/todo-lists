@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateTodoDto } from './dtos/create-todo.dto';
+
+import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodosService } from './todos.service';
 
 @Controller('todos')
@@ -12,8 +13,8 @@ export class TodosController {
   }
 
   @Get()
-  findTodos() {
-    return this.todoService.find();
+  getAllTodos() {
+    return this.todoService.findAll();
   }
 
   @Get('/:id')
@@ -23,6 +24,6 @@ export class TodosController {
 
   @Patch('/:id')
   updateTodoStatus(@Param('id') id: string) {
-    return this.todoService.update(parseInt(id));
+    return this.todoService.updateStatus(parseInt(id));
   }
 }

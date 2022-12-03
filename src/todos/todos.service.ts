@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTodoDto } from './dtos/create-todo.dto';
+
+import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todos } from './todos.entity';
 
 @Injectable()
@@ -14,7 +15,7 @@ export class TodosService {
     return this.repo.save(todo);
   }
 
-  find() {
+  findAll() {
     return this.repo.find();
   }
 
@@ -24,7 +25,7 @@ export class TodosService {
     return this.repo.findOne({ where: { id } });
   }
 
-  async update(id: number) {
+  async updateStatus(id: number) {
     const todo = await this.repo.findOne({ where: { id } });
     if (!todo) throw new NotFoundException('Todo not found');
 
