@@ -3,11 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateTodoDto } from './dto/create-todo.dto';
-import { Todos } from './todos.entity';
+import { Todo } from './todos.entity';
 
 @Injectable()
 export class TodosService {
-  constructor(@InjectRepository(Todos) private repo: Repository<Todos>) {}
+  constructor(@InjectRepository(Todo) private repo: Repository<Todo>) {}
 
   create(body: CreateTodoDto) {
     const todo = this.repo.create(body);
