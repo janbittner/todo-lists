@@ -6,7 +6,7 @@ export class CreateTodoItemDto {
   title: string;
 
   @IsString()
-  description: string;
+  description?: string;
 
   deadline?: Date;
 }

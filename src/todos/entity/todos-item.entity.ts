@@ -18,7 +18,7 @@ export class TodoItem {
   createdBy: User;
 
   @Column({ type: 'date' })
-  deadline: string;
+  deadline: Date;
 
   @Column({ default: Status.Active })
   status: Status;
