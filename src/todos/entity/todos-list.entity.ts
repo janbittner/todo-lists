@@ -1,5 +1,12 @@
 import { User } from 'src/users/entity/users.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { TodoItem } from './todos-item.entity';
 
 @Entity()
@@ -11,8 +18,9 @@ export class TodoList {
   title: string;
 
   @ManyToMany(() => User)
+  @JoinTable()
   users: User[];
 
-  @ManyToMany(() => TodoItem)
+  @OneToMany(() => TodoItem, (item) => item.list)
   items: TodoItem[];
 }

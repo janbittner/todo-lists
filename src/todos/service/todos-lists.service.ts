@@ -18,12 +18,15 @@ export class TodosListsService {
   }
 
   findAll() {
-    return this.listsRepo.find();
+    return this.listsRepo.find({ relations: { items: true, users: true } });
   }
 
   findOne(id: number) {
     if (!id) return null;
 
-    return this.listsRepo.findOne({ where: { id } });
+    return this.listsRepo.findOne({
+      where: { id },
+      relations: { items: true, users: true },
+    });
   }
 }

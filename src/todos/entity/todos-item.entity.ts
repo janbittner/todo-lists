@@ -8,7 +8,7 @@ export class TodoItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar' })
   title: string;
 
   @Column({ type: 'varchar' })
@@ -17,12 +17,12 @@ export class TodoItem {
   @ManyToOne(() => User)
   createdBy: User;
 
-  @Column({ type: 'date' })
-  deadline: Date;
+  @Column({ type: 'date', nullable: true })
+  deadline?: Date;
 
   @Column({ default: Status.Active })
   status: Status;
 
-  @ManyToOne(() => TodoList)
+  @ManyToOne(() => TodoList, (list) => list.items)
   list: TodoList;
 }

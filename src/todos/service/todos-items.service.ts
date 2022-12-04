@@ -4,15 +4,28 @@ import { Repository } from 'typeorm';
 
 import { CreateTodoItemDto } from '../dto/create-todo-item.dto';
 import { TodoItem } from '../entity/todos-item.entity';
+import { TodoList } from '../entity/todos-list.entity';
 
 @Injectable()
 export class TodosItemsService {
   constructor(
     @InjectRepository(TodoItem) private itemsRepo: Repository<TodoItem>,
+    @InjectRepository(TodoList) private listsRepo: Repository<TodoList>,
   ) {}
 
-  create(body: CreateTodoItemDto) {
-    const item = this.itemsRepo.create(body);
+  async create(listId: number, itemDto: CreateTodoItemDto) {
+    const list: TodoList = await this.listsRepo.findOne({
+      where: { id: listId },
+      relations: {
+        users: true,
+        items: true,
+      },
+    });
+
+    const item: TodoItem = this.itemsRepo.create({
+      ...itemDto,
+      list,
+    });
 
     return this.itemsRepo.save(item);
   }

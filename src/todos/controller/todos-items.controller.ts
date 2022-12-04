@@ -3,13 +3,16 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateTodoItemDto } from '../dto/create-todo-item.dto';
 import { TodosItemsService } from '../service/todos-items.service';
 
-@Controller('todos/lists/items')
+@Controller('todos/items')
 export class TodosItemsController {
   constructor(private service: TodosItemsService) {}
 
-  @Post()
-  createItem(@Body() body: CreateTodoItemDto) {
-    return this.service.create(body);
+  @Post('/list/:id')
+  createItem(
+    @Param('id') listId: number,
+    @Body() createTodoItemDto: CreateTodoItemDto,
+  ) {
+    return this.service.create(listId, createTodoItemDto);
   }
 
   @Get()
