@@ -1,5 +1,6 @@
-import { User } from 'src/users/entity/users.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { User } from 'src/users/entity/users.entity';
 import { Status } from '../types';
 import { TodoList } from './todos-list.entity';
 

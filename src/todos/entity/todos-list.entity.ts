@@ -1,4 +1,3 @@
-import { User } from 'src/users/entity/users.entity';
 import {
   Column,
   Entity,
@@ -7,6 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { User } from 'src/users/entity/users.entity';
 import { TodoItem } from './todos-item.entity';
 
 @Entity()

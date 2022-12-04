@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { TodoItem } from './todos/entity/todos-item.entity';
 import { TodoList } from './todos/entity/todos-list.entity';
 import { TodosModule } from './todos/todos.module';
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module';
     }),
     TodosModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

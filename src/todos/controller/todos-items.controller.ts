@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 import { CreateTodoItemDto } from '../dto/create-todo-item.dto';
 import { TodosItemsService } from '../service/todos-items.service';
@@ -7,6 +8,7 @@ import { TodosItemsService } from '../service/todos-items.service';
 export class TodosItemsController {
   constructor(private service: TodosItemsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('/list/:id')
   createItem(
     @Param('id') listId: number,
