@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { User } from './users.entity';
+import { User } from './entity/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
@@ -29,10 +29,16 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  async logIn(user: LoginUserDto, jwt: JwtService): Promise<any> {
+  async logIn(user: LoginUserDto, jwt: JwtService) {
+    const httpException = new HttpException(
+      'Incorrect username or password',
+      HttpStatus.UNAUTHORIZED,
+    );
     const foundUser = await this.repo.findOne({ where: { email: user.email } });
+
     if (foundUser) {
       const { password } = foundUser;
+
       if (bcrypt.compare(user.password, password)) {
         const payload = { email: user.email };
 
@@ -41,15 +47,9 @@ export class UsersService {
         };
       }
 
-      return new HttpException(
-        'Incorrect username or password',
-        HttpStatus.UNAUTHORIZED,
-      );
+      return httpException;
     }
 
-    return new HttpException(
-      'Incorrect username or password',
-      HttpStatus.UNAUTHORIZED,
-    );
+    return httpException;
   }
 }

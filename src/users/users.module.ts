@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { secret } from 'src/utils/constants';
 
 import { UsersController } from './users.controller';
-import { User } from './users.entity';
+import { User } from './entity/users.entity';
 import { UsersService } from './users.service';
 
 @Module({

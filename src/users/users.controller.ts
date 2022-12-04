@@ -1,9 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-
-import { User } from './users.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')

@@ -2,33 +2,37 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { Todo } from './todos.entity';
+import { CreateTodoListDto } from './dto/create-todo-list.dto';
+import { TodoItem } from './entity/todos-item.entity';
+import { TodoList } from './entity/todos-list.entity';
 
 @Injectable()
 export class TodosService {
-  constructor(@InjectRepository(Todo) private repo: Repository<Todo>) {}
+  constructor(
+    @InjectRepository(TodoList) private listRepo: Repository<TodoList>,
+    @InjectRepository(TodoItem) private itemRepo: Repository<TodoItem>,
+  ) {}
 
-  create(body: CreateTodoDto) {
-    const todo = this.repo.create(body);
+  createList(body: CreateTodoListDto) {
+    const todo = this.listRepo.create(body);
 
-    return this.repo.save(todo);
+    return this.listRepo.save(todo);
   }
 
-  findAll() {
-    return this.repo.find();
+  findAllLists() {
+    return this.listRepo.find();
   }
 
-  findOne(id: number) {
+  findOneList(id: number) {
     if (!id) return null;
 
-    return this.repo.findOne({ where: { id } });
+    return this.listRepo.findOne({ where: { id } });
   }
 
-  async updateStatus(id: number) {
-    const todo = await this.repo.findOne({ where: { id } });
-    if (!todo) throw new NotFoundException('Todo not found');
+  // async updateStatus(id: number) {
+  //   const todo = await this.listRepo.findOne({ where: { id } });
+  //   if (!todo) throw new NotFoundException('Todo not found');
 
-    return this.repo.save({ ...todo, isCompleted: true });
-  }
+  //   return this.listRepo.save({ ...todo, isCompleted: true });
+  // }
 }

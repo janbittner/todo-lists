@@ -1,11 +1,12 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateTodoDto {
+export class CreateTodoItemDto {
   @IsNotEmpty()
   @IsString()
-  todo: string;
+  title: string;
 
-  @IsNotEmpty()
   @IsString()
   description: string;
+
+  deadline?: Date;
 }

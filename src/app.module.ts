@@ -3,9 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Todo } from './todos/todos.entity';
+import { TodoItem } from './todos/entity/todos-item.entity';
+import { TodoList } from './todos/entity/todos-list.entity';
 import { TodosModule } from './todos/todos.module';
-import { User } from './users/users.entity';
+import { User } from './users/entity/users.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -13,7 +14,7 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'todo.sqlite',
-      entities: [Todo, User],
+      entities: [TodoList, TodoItem, User],
       synchronize: true,
     }),
     TodosModule,
