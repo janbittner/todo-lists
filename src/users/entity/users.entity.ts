@@ -1,5 +1,13 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { TodoList } from 'src/todos/entity/todos-list.entity';
 
 @Entity()
 export class User {
@@ -11,6 +19,10 @@ export class User {
 
   @Column({ nullable: false })
   password: string;
+
+  @ManyToMany(() => TodoList)
+  @JoinTable()
+  lists: TodoList[];
 
   @BeforeInsert()
   async hashPassword() {

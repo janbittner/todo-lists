@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 import { CreateTodoListDto } from '../dto/create-todo-list.dto';
 import { TodosListsService } from '../service/todos-lists.service';
@@ -7,18 +17,23 @@ import { TodosListsService } from '../service/todos-lists.service';
 export class TodosListsController {
   constructor(private service: TodosListsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createList(@Body() body: CreateTodoListDto) {
-    return this.service.create(body);
+  createList(@Request() req, @Body() body: CreateTodoListDto) {
+    return this.service.create(req.user.id, body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('add/user/')
+  addUser(
+    @Query('username') username: string,
+    @Query('list_id') listId: number,
+  ) {
+    return this.service.addUser(username, listId);
   }
 
   @Get()
   getAllLists() {
     return this.service.findAll();
-  }
-
-  @Get('/:id')
-  findListId(@Param('id') id: string) {
-    return this.service.findOne(parseInt(id));
   }
 }

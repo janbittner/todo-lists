@@ -16,14 +16,4 @@ export class TodosItemsController {
   ) {
     return this.service.create(listId, createTodoItemDto);
   }
-
-  @Get()
-  getAllItems() {
-    return this.service.findAll();
-  }
-
-  @Get('/:id')
-  findItemById(@Param('id') id: string) {
-    return this.service.findOne(parseInt(id));
-  }
 }

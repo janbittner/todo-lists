@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -39,11 +39,4 @@ export class TodosItemsService {
 
     return this.itemsRepo.findOne({ where: { id } });
   }
-
-  // async updateStatus(id: number) {
-  //   const todo = await this.listRepo.findOne({ where: { id } });
-  //   if (!todo) throw new NotFoundException('Todo not found');
-
-  //   return this.listRepo.save({ ...todo, isCompleted: true });
-  // }
 }
