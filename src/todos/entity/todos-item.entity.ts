@@ -1,7 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User } from 'src/users/entity/users.entity';
-import { Status } from '../types';
+import { TodoStatus } from '../types';
 import { TodoList } from './todos-list.entity';
 
 @Entity()
@@ -15,14 +14,14 @@ export class TodoItem {
   @Column({ type: 'varchar' })
   description: string;
 
-  @ManyToOne(() => User)
-  createdBy: User;
+  @Column({ type: 'varchar' })
+  createdBy: string;
 
   @Column({ type: 'date', nullable: true })
   deadline?: Date;
 
-  @Column({ default: Status.Active })
-  status: Status;
+  @Column({ default: TodoStatus.Active })
+  status: TodoStatus;
 
   @ManyToOne(() => TodoList, (list) => list.items)
   list: TodoList;

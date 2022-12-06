@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTodoItemDto {
@@ -9,6 +10,7 @@ export class CreateTodoItemDto {
   description?: string;
 
   @IsOptional()
+  @Type(() => Date)
   @IsDate()
   deadline?: Date;
 }

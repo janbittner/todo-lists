@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param,
+  Patch,
   Post,
   Query,
   Request,
@@ -24,7 +24,7 @@ export class TodosListsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('add/user/')
+  @Patch('add/user/')
   addUser(
     @Query('username') username: string,
     @Query('list_id') listId: number,
