@@ -29,3 +29,5 @@ $ npm run start:prod
 ```
 
 The app will run on http://localhost:3000. API documentation can be accessed on http://localhost:3000/api#/
+
+No need to run any migrations, just install and run.
