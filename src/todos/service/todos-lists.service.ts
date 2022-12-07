@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -42,6 +46,9 @@ export class TodosListsService {
       where: { username: username },
     });
 
+    if (!userToBeAdded)
+      throw new NotFoundException(`User ${username} not found`);
+
     const updatedList: TodoList = {
       ...list,
       users: [...list.users, userToBeAdded],
@@ -52,14 +59,5 @@ export class TodosListsService {
 
   findAll() {
     return this.listsRepo.find({ relations: { items: true, users: true } });
-  }
-
-  findOne(id: number) {
-    if (!id) return null;
-
-    return this.listsRepo.findOne({
-      where: { id },
-      relations: { items: true, users: true },
-    });
   }
 }

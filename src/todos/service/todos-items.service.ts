@@ -33,6 +33,8 @@ export class TodosItemsService {
       },
     });
 
+    if (!list) throw new NotFoundException(`List with id ${listId} not found`);
+
     if (!list.users.find((user) => user.username === foundUser.username))
       throw new UnauthorizedException(
         `User ${user.username} is not permitted to add items to this list. Add the user to the list first.`,
@@ -52,6 +54,8 @@ export class TodosItemsService {
       where: { id: itemId },
       relations: { list: true },
     });
+
+    if (!item) throw new NotFoundException(`Item with id ${itemId} not found`);
 
     const foundUser: User = await this.usersRepo.findOne({
       where: { id: user.id },
