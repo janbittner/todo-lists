@@ -4,12 +4,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+
 import { TodoList } from 'src/todos/entity/todos-list.entity';
-import { TodoItem } from 'src/todos/entity/todos-item.entity';
 
 @Entity()
 export class User {

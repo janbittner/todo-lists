@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   Param,
   Patch,
   Post,
@@ -31,7 +30,11 @@ export class TodosItemsController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('/update-status/:id')
-  createItem(@Param('id') itemId: number, @Body() body: UpdateTodoItemtDto) {
-    return this.service.updateStatus(itemId, body);
+  createItem(
+    @Request() req,
+    @Param('id') itemId: number,
+    @Body() body: UpdateTodoItemtDto,
+  ) {
+    return this.service.updateStatus(req.user, itemId, body);
   }
 }

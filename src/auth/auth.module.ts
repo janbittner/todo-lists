@@ -21,7 +21,7 @@ import { AuthService } from './auth.service';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '2h' },
+      signOptions: { expiresIn: '30m' },
     }),
     TypeOrmModule.forFeature([User]),
   ],

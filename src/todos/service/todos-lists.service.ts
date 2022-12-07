@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -23,13 +23,29 @@ export class TodosListsService {
     return this.listsRepo.save(list);
   }
 
-  async addUser(username: string, listId: number) {
-    const user: User = await this.usersRepo.findOne({
+  async addUser(reqUser: User, username: string, listId: number) {
+    const foundUser: User = await this.usersRepo.findOne({
+      where: { id: reqUser.id },
+    });
+
+    const list: TodoList = await this.listsRepo.findOne({
+      where: { id: listId },
+      relations: { users: true },
+    });
+
+    if (!list.users.find((user) => user.username === foundUser.username))
+      throw new UnauthorizedException(
+        `User ${reqUser.username} is not permitted to add users to this list, only users already linked to the lists are.`,
+      );
+
+    const userToBeAdded: User = await this.usersRepo.findOne({
       where: { username: username },
     });
 
-    const list: TodoList = await this.findOne(listId);
-    const updatedList: TodoList = { ...list, users: [...list.users, user] };
+    const updatedList: TodoList = {
+      ...list,
+      users: [...list.users, userToBeAdded],
+    };
 
     return this.listsRepo.save(updatedList);
   }

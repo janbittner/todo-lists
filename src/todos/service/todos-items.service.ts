@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entity/users.entity';
 import { Repository } from 'typeorm';
@@ -29,6 +33,11 @@ export class TodosItemsService {
       },
     });
 
+    if (!list.users.find((user) => user.username === foundUser.username))
+      throw new UnauthorizedException(
+        `User ${user.username} is not permitted to add items to this list. Add the user to the list first.`,
+      );
+
     const item: TodoItem = this.itemsRepo.create({
       ...itemDto,
       createdBy: foundUser.username,
@@ -38,10 +47,25 @@ export class TodosItemsService {
     return this.itemsRepo.save(item);
   }
 
-  async updateStatus(itemId: number, body: UpdateTodoItemtDto) {
+  async updateStatus(user: User, itemId: number, body: UpdateTodoItemtDto) {
     const item: TodoItem = await this.itemsRepo.findOne({
       where: { id: itemId },
+      relations: { list: true },
     });
+
+    const foundUser: User = await this.usersRepo.findOne({
+      where: { id: user.id },
+    });
+
+    const list: TodoList = await this.listsRepo.findOne({
+      where: { id: item.list.id },
+      relations: { users: true },
+    });
+
+    if (!list.users.find((user) => user.username === foundUser.username))
+      throw new UnauthorizedException(
+        `User ${user.username} is not permitted to edit items in this list. Add the user to the list first.`,
+      );
 
     return this.itemsRepo.save({ ...item, status: body.status });
   }

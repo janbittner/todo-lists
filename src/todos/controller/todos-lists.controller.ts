@@ -26,10 +26,11 @@ export class TodosListsController {
   @UseGuards(JwtAuthGuard)
   @Patch('add/user/')
   addUser(
+    @Request() req,
     @Query('username') username: string,
     @Query('list_id') listId: number,
   ) {
-    return this.service.addUser(username, listId);
+    return this.service.addUser(req.user, username, listId);
   }
 
   @Get()
