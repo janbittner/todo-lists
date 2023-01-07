@@ -23,10 +23,10 @@ export class User {
 
   @ManyToMany(() => TodoList)
   @JoinTable()
-  lists: TodoList[];
+  lists?: TodoList[];
 
   @BeforeInsert()
-  async hashPassword() {
+  async hashPassword?() {
     this.password = await bcrypt.hash(this.password, 10);
   }
 }
