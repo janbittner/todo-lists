@@ -6,9 +6,6 @@ export class CreateTodoItemDto {
   @IsString()
   title: string;
 
-  @IsString()
-  description?: string;
-
   @IsOptional()
   @Type(() => Date)
   @IsDate()

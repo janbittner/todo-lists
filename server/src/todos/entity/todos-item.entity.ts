@@ -12,9 +12,6 @@ export class TodoItem {
   title: string;
 
   @Column({ type: 'varchar' })
-  description: string;
-
-  @Column({ type: 'varchar' })
   createdBy: string;
 
   @Column({ type: 'date', nullable: true })
