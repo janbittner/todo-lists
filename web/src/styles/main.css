@@ -1,0 +1,5 @@
+.main-container {
+   display: inline-flex;
+   flex-wrap: wrap;
+   margin-top: 20px;
+}
