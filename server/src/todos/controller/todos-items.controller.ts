@@ -29,7 +29,7 @@ export class TodosItemsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('/update-status/:id')
+  @Patch('/update/:id')
   createItem(
     @Request() req,
     @Param('id') itemId: number,

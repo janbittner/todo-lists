@@ -71,6 +71,6 @@ export class TodosItemsService {
         `User ${user.username} is not permitted to edit items in this list. Add the user to the list first.`,
       );
 
-    return this.itemsRepo.save({ ...item, status: body.status });
+    return this.itemsRepo.save({ ...item, ...body });
   }
 }
