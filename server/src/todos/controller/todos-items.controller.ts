@@ -30,11 +30,11 @@ export class TodosItemsController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('/update/:id')
-  createItem(
+  updateItem(
     @Request() req,
     @Param('id') itemId: number,
     @Body() body: UpdateTodoItemtDto,
   ) {
-    return this.service.updateStatus(req.user, itemId, body);
+    return this.service.updateItem(req.user, itemId, body);
   }
 }

@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateTodoListDto } from '../dto/create-todo-list.dto';
 import { TodoList } from '../entity/todos-list.entity';
 import { User } from 'src/users/entity/users.entity';
+import { UpdateTodoListDto } from '../dto/update-todo-list.dto';
 
 @Injectable()
 export class TodosListsService {
@@ -25,6 +26,28 @@ export class TodosListsService {
     const list = this.listsRepo.create({ ...body, users: [user] });
 
     return this.listsRepo.save(list);
+  }
+
+  findAll() {
+    return this.listsRepo.find({ relations: { items: true, users: true } });
+  }
+
+  async updateList(user: User, listId: number, body: UpdateTodoListDto) {
+    const foundUser: User = await this.usersRepo.findOne({
+      where: { id: user.id },
+    });
+
+    const list: TodoList = await this.listsRepo.findOne({
+      where: { id: listId },
+      relations: { users: true },
+    });
+
+    if (!list.users.find((user) => user.username === foundUser.username))
+      throw new UnauthorizedException(
+        `User ${user.username} is not permitted to edit items in this list. Add the user to the list first.`,
+      );
+
+    return this.listsRepo.save({ ...list, ...body });
   }
 
   async addUser(reqUser: User, username: string, listId: number) {
@@ -55,9 +78,5 @@ export class TodosListsService {
     };
 
     return this.listsRepo.save(updatedList);
-  }
-
-  findAll() {
-    return this.listsRepo.find({ relations: { items: true, users: true } });
   }
 }

@@ -49,7 +49,7 @@ export class TodosItemsService {
     return this.itemsRepo.save(item);
   }
 
-  async updateStatus(user: User, itemId: number, body: UpdateTodoItemtDto) {
+  async updateItem(user: User, itemId: number, body: UpdateTodoItemtDto) {
     const item: TodoItem = await this.itemsRepo.findOne({
       where: { id: itemId },
       relations: { list: true },
